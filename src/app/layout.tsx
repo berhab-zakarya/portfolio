@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
-
+import { SpeedInsights } from "@vercel/speed-insights/next"
 const roboto = Roboto({
   variable: "--font-roboto",
   subsets: ["latin"],
