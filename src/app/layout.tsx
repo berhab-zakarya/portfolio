@@ -32,7 +32,9 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+            <SpeedInsights/>
             {children}
+            
           </ThemeProvider>
       </body>
     </html>
