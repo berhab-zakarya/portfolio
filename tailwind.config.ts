@@ -170,7 +170,17 @@ const config = {
   				to: {
   					transform: 'translate(calc(-50% - 0.5rem))'
   				}
-  			}
+  			},
+			 orbit: {
+          "0%": {
+            transform:
+              "rotate(calc(var(--angle) * 1deg)) translateY(calc(var(--radius) * 1px)) rotate(calc(var(--angle) * -1deg))",
+          },
+          "100%": {
+            transform:
+              "rotate(calc(var(--angle) * 1deg + 360deg)) translateY(calc(var(--radius) * 1px)) rotate(calc((var(--angle) * -1deg) - 360deg))",
+          },
+        },
   		},
   		animation: {
   			'accordion-down': 'accordion-down 0.2s ease-out',
@@ -182,7 +192,8 @@ const config = {
   			third: 'moveInCircle 40s linear infinite',
   			fourth: 'moveHorizontal 40s ease infinite',
   			fifth: 'moveInCircle 20s ease infinite',
-  			scroll: 'scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite'
+  			scroll: 'scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite',
+			orbit: "orbit calc(var(--duration)*1s) linear infinite",
   		}
   	}
   },

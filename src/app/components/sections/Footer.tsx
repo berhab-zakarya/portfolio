@@ -10,7 +10,7 @@ interface FooterProps {
 
 const Footer = ({ data }: FooterProps) => {
   return (
-    <footer className="w-full mb-[100px] md:mb-5 pb-10" id="contact">
+    <footer className="w-full mb-[100px] md:mb-5 pb-10 px-8" id="contact">
       <Image
         src="/footer-grid.svg"
         alt="grid"

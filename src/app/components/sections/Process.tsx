@@ -1,69 +1,77 @@
-"use client"
-import React from 'react'
-import { CanvasRevealEffect } from '../ui/CanvasRevealEffect';
-import { AnimatePresence, motion } from 'framer-motion';
-
+"use client";
+import React from "react";
+import { CanvasRevealEffect } from "../ui/CanvasRevealEffect";
+import { AnimatePresence, motion } from "framer-motion";
+import { Montserrat_Alternates } from "next/font/google";
+const montserrat = Montserrat_Alternates({
+  subsets: ["latin"],
+  variable: "--font-montserrat",
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+});
 const Process = () => {
   return (
     <section className="w-full py-20">
-      <h1 className="heading">
-        My <span className="text-purple">approach</span>
-      </h1>
+      <div className="text-center mb-16">
+        <h1 className="heading text-4xl md:text-6xl font-bold bg-gradient-to-r from-white via-purple-200 to-purple-400 bg-clip-text text-transparent mb-4">
+          MY Development{" "}
+          <span className="block text-purple-400 mt-2">
+             Process
+          </span>
+        </h1>
+
+        <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-blue-500  rounded-full" />
+      </div>
       {/* remove bg-white dark:bg-black */}
       <div className="my-20 flex flex-col lg:flex-row items-center justify-center w-full gap-4">
         {/* add des prop */}
         <Card
-  title="Discovery & Architecture"
-  icon={<AceternityIcon order="Phase 1" />}
-  des="We’ll define the project’s core features, user journey, and scalable architecture. I translate business needs into a structured system using clean, modular planning — backed by proven tools like Django, Firebase, and PostgreSQL."
->
-  <CanvasRevealEffect
-    animationSpeed={5.1}
-    containerClassName="bg-emerald-900 rounded-3xl overflow-hidden"
-  />
-</Card>
+          title="Project Discovery & System Design"
+          des="I start by understanding the project’s purpose, user needs, and long-term vision. Based on that, I architect scalable, modular solutions using tools like Django, PostgreSQL, and Firebase — ensuring a solid technical foundation from day one."
+          icon={<AceternityIcon order="Phase 1" />}
+        >
+          <CanvasRevealEffect
+            animationSpeed={5.1}
+            containerClassName="bg-emerald-900 rounded-3xl overflow-hidden"
+          />
+        </Card>
 
-     <Card
-     
-  title="Agile Coding & Progress Sync"
-  icon={<AceternityIcon order="Phase 2" />}
-  des="With the architecture in place, I dive into clean code — crafting real-time features, API layers, and responsive UI using Flutter, React, and Next.js. You’ll receive regular progress updates and testable versions throughout."
->
-  <CanvasRevealEffect
-    animationSpeed={3}
-    containerClassName="bg-pink-900 rounded-3xl overflow-hidden"
-    colors={[
-      [255, 166, 158],
-      [221, 255, 247],
-    ]}
-    dotSize={2}
-  />
-</Card>
+        <Card
+          title="Full Stack Development Workflow"
+          des="Using technologies like React, Next.js, Flutter, and Node.js, I build responsive interfaces, powerful backends, and real-time APIs. My development process follows clean code practices, continuous delivery, and Git-based collaboration."
+          icon={<AceternityIcon order="Phase 2" />}
+        >
+          <CanvasRevealEffect
+            animationSpeed={3}
+            containerClassName="bg-pink-900 rounded-3xl overflow-hidden"
+            colors={[
+              [255, 166, 158],
+              [221, 255, 247],
+            ]}
+            dotSize={2}
+          />
+        </Card>
 
-    <Card
-  title="Testing"
-  icon={<AceternityIcon order="Phase 2" />}
-  des="With the architecture in place, I dive into clean code — crafting real-time features, API layers, and responsive UI using Flutter, React, and Next.js. You’ll receive regular progress updates and testable versions throughout."
->
-  <CanvasRevealEffect
-    animationSpeed={3}
-    containerClassName="bg-pink-900 rounded-3xl overflow-hidden"
-    colors={[
-      [255, 166, 158],
-      [221, 255, 247],
-    ]}
-    dotSize={2}
-  />
-</Card>
-
+        <Card
+          title="Testing, Optimization & Deployment"
+          des="I ensure reliability and performance through unit tests, integration tests, and CI/CD pipelines. Once validated, I deploy on platforms like Vercel, Railway, or Docker-based VPS — optimized for scalability and monitoring post-launch."
+          icon={<AceternityIcon order="Phase 2" />}
+        >
+          <CanvasRevealEffect
+            animationSpeed={3}
+            containerClassName="bg-pink-900 rounded-3xl overflow-hidden"
+            colors={[
+              [255, 166, 158],
+              [221, 255, 247],
+            ]}
+            dotSize={2}
+          />
+        </Card>
       </div>
     </section>
   );
-}
+};
 
-export default Process
-
-
+export default Process;
 
 const Card = ({
   title,
@@ -83,8 +91,8 @@ const Card = ({
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       // change h-[30rem] to h-[35rem], add rounded-3xl
-      className="border border-black/[0.2] group/canvas-card flex items-center justify-center
-       dark:border-white/[0.2]  max-w-sm w-full mx-auto p-4 relative lg:h-[35rem] rounded-3xl "
+      className={`${montserrat.variable} --font-montserrat border border-black/[0.2] group/canvas-card flex items-center justify-center
+       dark:border-white/[0.2]  max-w-sm w-full mx-auto p-4 relative lg:h-[35rem] rounded-3xl `}
       style={{
         //   add these two
         //   you can generate the color from here https://cssgradient.io/
@@ -130,9 +138,9 @@ const Card = ({
         </h2>
         {/* add this one for the description */}
         <p
-          className="text-sm opacity-0 group-hover/canvas-card:opacity-100
+          className={`text-sm opacity-0 group-hover/canvas-card:opacity-100
          relative z-10 mt-4 group-hover/canvas-card:text-white text-center
-         group-hover/canvas-card:-translate-y-2 transition duration-200"
+         group-hover/canvas-card:-translate-y-2 transition duration-200 --font-montserrat ${montserrat.variable}`}
           style={{ color: "#E4ECFF" }}
         >
           {des}
@@ -145,7 +153,7 @@ const Card = ({
 const AceternityIcon = ({ order }: { order: string }) => {
   return (
     <div>
-       <button className="relative inline-flex overflow-hidden rounded-full p-[1px] ">
+      <button className="relative inline-flex overflow-hidden rounded-full p-[1px] ">
         <span
           className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite]
          bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]"
@@ -158,11 +166,10 @@ const AceternityIcon = ({ order }: { order: string }) => {
         </span>
       </button>
     </div>
-   
   );
 };
 
-export const Icon = ({ className, ...rest }: {className:string;}) => {
+export const Icon = ({ className, ...rest }: { className: string }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

@@ -10,6 +10,7 @@ const alumni = Alumni_Sans({
 });
 
 
+
 export const metadata: Metadata = {
   title: "Zakarya Berhab – Fullstack Developer | Mobile & Web Solutions",
   description:

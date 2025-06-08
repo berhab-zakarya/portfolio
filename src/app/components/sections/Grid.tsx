@@ -75,7 +75,7 @@ const Grid = ({ data }: GridProps) => {
 
   return (
     <section id="about">
-      <BentoGrid className="w-full py-20">
+      <BentoGrid className="w-full py-20 px-8">
         {mergedData.map((item) => (
           <BentoGridItem
             id={item.id}

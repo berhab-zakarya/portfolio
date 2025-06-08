@@ -52,7 +52,7 @@ const Home = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-black-100">
-        <div className="text-center">
+        <div className="text-center justify-center items-center flex flex-col">
           <LoadingComponent />
           <p className="mt-4 text-white-200">Loading portfolio data...</p>
         </div>
@@ -72,8 +72,8 @@ const Home = () => {
   }
 
   return (
-    <main className="relative bg-black-100 flex justify-center items-center flex-col mx-auto sm:px-10 px-5 overflow-clip --font-alumni">
-      <div className=" w-full">
+    <main className="relative bg-black-100 flex justify-center items-center flex-col  overflow-clip --font-alumni">
+      <div className="w-full">
         <FloatingNav navItems={navItems} />
         <Hero data={heroData} />
         <Grid data={gridItemsData} />

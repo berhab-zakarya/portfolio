@@ -17,7 +17,7 @@ const Clients = ({ data }: ClientsProps) => {
   const { testimonials, companies } = data
 
   return (
-    <section id="testimonials" className="py-20 relative overflow-hidden">
+    <section id="testimonials" className="py-20 px-8 relative overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-900/5 to-transparent" />
       
@@ -25,20 +25,20 @@ const Clients = ({ data }: ClientsProps) => {
       <div className="absolute top-20 left-10 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl animate-pulse" />
       <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
       
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10  px-4 sm:px-6 lg:px-8">
         {/* Enhanced heading */}
         <div className="text-center mb-16">
           <h1 className="heading text-4xl md:text-6xl font-bold bg-gradient-to-r from-white via-purple-200 to-purple-400 bg-clip-text text-transparent mb-4">
             Kind words from
             <span className="block text-purple-400 mt-2">satisfied clients</span>
           </h1>
-          <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-blue-500 mx-auto rounded-full" />
+          <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-blue-500  rounded-full" />
         </div>
 
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center w-full">
           {/* Enhanced testimonials section - removed background container */}
           <div className="w-full mb-20">
-            <div className="h-[50vh] md:h-[30rem] flex flex-col antialiased items-center w-full justify-center relative overflow-hidden bg-white-100">
+            <div className="h-[50vh] md:h-[30rem] flex flex-col antialiased items-center w-full justify-center relative overflow-hidden ">
               <InfiniteMovingCards items={testimonials} direction="right" speed="normal" />
             </div>
           </div>
