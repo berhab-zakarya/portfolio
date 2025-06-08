@@ -107,9 +107,13 @@ const RecentProjects = ({ data }: RecentProjectProps) => {
   if (!data || data.length === 0) {
     return (
       <div className="py-20" id="projects">
-        <h1 className="heading">
-          A small selection of <span className="text-blue-300">recent projects</span>
-        </h1>
+       <div className="text-center mb-16">
+          <h1 className="heading text-4xl md:text-6xl font-bold bg-gradient-to-r from-white via-purple-200 to-purple-400 bg-clip-text text-transparent mb-4">
+            A small selection of{" "} 
+            <span className="block text-purple-400 mt-2">My Projects</span>
+          </h1>
+          <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-blue-500 mx-auto rounded-full" />
+        </div>
         <div className="flex items-center justify-center mt-16">
           <div className="text-center">
             <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-r from-purple-900/20 to-blue-900/20 border border-gray-700/50 flex items-center justify-center">

@@ -38,7 +38,7 @@ const Clients = ({ data }: ClientsProps) => {
         <div className="flex flex-col items-center">
           {/* Enhanced testimonials section - removed background container */}
           <div className="w-full mb-20">
-            <div className="h-[50vh] md:h-[30rem] flex flex-col antialiased items-center justify-center relative overflow-hidden">
+            <div className="h-[50vh] md:h-[30rem] flex flex-col antialiased items-center w-full justify-center relative overflow-hidden bg-white-100">
               <InfiniteMovingCards items={testimonials} direction="right" speed="normal" />
             </div>
           </div>
@@ -48,8 +48,8 @@ const Clients = ({ data }: ClientsProps) => {
       
 <div className="text-center mb-16">
           <h1 className="heading text-4xl md:text-6xl font-bold bg-gradient-to-r from-white via-purple-200 to-purple-400 bg-clip-text text-transparent mb-4">
-            Trusted by 
-            <span className="block text-purple-400 mt-2">Partnering with innovative companies worldwide</span>
+            Partnering with innovative
+            <span className="block text-purple-400 mt-2">Companies</span>
           </h1>
           <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-blue-500 mx-auto rounded-full" />
         </div>
