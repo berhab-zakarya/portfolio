@@ -24,36 +24,52 @@ export function useTestimonials() {
     }
   }
 
-  const createTestimonial = async (testimonialData: Omit<Testimonial, "id">) => {
-    try {
-      setSaving(true)
-      setError(null)
-      const response = await privateApi("portfolio/testimonials/", {
-        method: "POST",
-        body: testimonialData,
-      })
-      setData((prev) => [...prev, response.data])
-      return response.data
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "Failed to create testimonial"
-      setError(errorMessage)
-      throw new Error(errorMessage)
-    } finally {
-      setSaving(false)
-    }
-  }
+const createTestimonial = async (testimonialData: FormData) => {
+  try {
+    setSaving(true);
+    setError(null);
 
+    // Debug FormData contents again in createTestimonial
+    for (const [key, value] of testimonialData.entries()) {
+      console.log(`${key}:`, value);
+    }
+
+    const response = await publicApi("portfolio/testimonials/", {
+      method: "POST",
+      body: testimonialData,
+    });
+
+    const data = await response.json();
+    console.log("Response data:", data);
+    setData((prev) => [...prev, data]);
+    return response;
+  } catch (err) {
+    console.log(err);
+    const errorMessage = err instanceof Error ? err.message : "Failed to create testimonial";
+    setError(errorMessage);
+    throw new Error(errorMessage);
+  } finally {
+    setSaving(false);
+  }
+};
   const updateTestimonial = async (id: number, testimonialData: Partial<Testimonial>) => {
     try {
       setSaving(true)
       setError(null)
-      const response = await privateApi(`portfolio/testimonials/${id}/`, {
+      const response = await publicApi(`portfolio/testimonials/${id}/`, {
         method: "PUT",
         body: testimonialData,
       })
-      setData((prev) => prev.map((testimonial) => (testimonial.id === id ? response.data : testimonial)))
-      return response.data
+      const data = await response.json()
+        console.log(data)
+      setData((prev =>
+        prev.map((testimonial) =>
+          testimonial.id === id ? { ...testimonial, ...testimonialData } : testimonial
+        )
+      ))
+      return response
     } catch (err) {
+      
       const errorMessage = err instanceof Error ? err.message : "Failed to update testimonial"
       setError(errorMessage)
       throw new Error(errorMessage)

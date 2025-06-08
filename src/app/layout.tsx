@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
+import { Alumni_Sans } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import { SpeedInsights } from "@vercel/speed-insights/next"
-const roboto = Roboto({
-  variable: "--font-roboto",
+const alumni = Alumni_Sans({
   subsets: ["latin"],
+  variable: "--font-alumni",
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
 
@@ -22,9 +23,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${alumni.variable}  antialiased`}>
       <body
-        className={`${roboto.variable}  antialiased`}
+
       >
         <ThemeProvider
             attribute="class"

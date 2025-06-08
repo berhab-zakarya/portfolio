@@ -1,6 +1,7 @@
 import Image from "next/image"
 import { Button } from "../ui/moving-border"
 import type { WorkExperience } from "@/types/portfolio"
+import { API_CONFIG } from "@/lib/constants"
 
 interface ExperienceProps {
   data: WorkExperience[]
@@ -9,9 +10,13 @@ interface ExperienceProps {
 const Experience = ({ data }: ExperienceProps) => {
   return (
     <div className="py-20 w-full">
-      <h1 className="heading">
-        My <span className="text-purple">work experience</span>
-      </h1>
+      <div className="text-center mb-16">
+          <h1 className="heading text-4xl md:text-6xl font-bold bg-gradient-to-r from-white via-purple-200 to-purple-400 bg-clip-text text-transparent mb-4">
+            My Work 
+            <span className="block text-purple-400 mt-2">Experience</span>
+          </h1>
+          <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-blue-500 mx-auto rounded-full" />
+        </div>
 
       <div className="w-full mt-12 grid lg:grid-cols-4 grid-cols-1 gap-10">
         {data.map((card) => (
@@ -27,7 +32,7 @@ const Experience = ({ data }: ExperienceProps) => {
             className="flex-1 text-black dark:text-white border-neutral-200 dark:border-slate-800"
           >
             <div className="flex lg:flex-row flex-col lg:items-center p-3 py-6 md:p-5 lg:p-10 gap-2">
-              <Image width={128} height={64} src={card.thumbnail || "/placeholder.svg"} alt={card.thumbnail} className="lg:w-32 md:w-20 w-16" />
+              <Image width={128} height={64} src={`${API_CONFIG.URL}${card.thumbnail}}`|| "/placeholder.svg"} alt={card.thumbnail} className="lg:w-32 md:w-20 w-16" />
               <div className="lg:ms-5">
                 <h1 className="text-start text-xl md:text-2xl font-bold">{card.title}</h1>
                 <p className="text-start text-white-100 mt-3 font-semibold">{card.desc}</p>
