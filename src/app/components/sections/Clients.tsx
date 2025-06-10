@@ -62,7 +62,7 @@ const Clients = ({ data }: ClientsProps) => {
               animation="stagger"
               className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 items-center justify-items-center"
             >
-              {companies.map((company, index) => (
+              {companies.map((company) => (
                 <StaggeredItem
                   key={company.id}
                   className="group relative p-6 rounded-xl bg-gradient-to-br from-gray-800/40 to-gray-900/40 backdrop-blur-sm border border-gray-700/30 hover:border-purple-500/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20"
