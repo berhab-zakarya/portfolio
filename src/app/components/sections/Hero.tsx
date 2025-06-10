@@ -1,32 +1,24 @@
-"use client";
-import { Spotlight } from "../ui/Spotlight";
-import { cn } from "@/lib/utils";
-import { TextGenerateEffect } from "../ui/TextGenerateEffect";
-import Link from "next/link";
-import MagicButton from "../ui/MagicButton";
-import { FaLocationArrow } from "react-icons/fa";
-import { useHero } from "@/hooks/use-hero";
-import type { HeroContent } from "@/types/portfolio";
-import LoadingComponent from "@/components/LoadingComponent";
-import TextExplodeIMessage from "@/components/animata/text/text-explode-imessage";
-import { OrbitingCircles } from "@/components/magicui/orbiting-circles";
-import { 
-  Code2, 
-  Palette, 
-  Smartphone, 
-  Database, 
-  Cpu, 
-  Globe, 
-  Zap, 
-  Shield 
-} from "lucide-react";
+"use client"
+import { Spotlight } from "../ui/Spotlight"
+import { cn } from "@/lib/utils"
+import { TextGenerateEffect } from "../ui/TextGenerateEffect"
+import Link from "next/link"
+import MagicButton from "../ui/MagicButton"
+import { FaLocationArrow } from "react-icons/fa"
+import { useHero } from "@/hooks/use-hero"
+import type { HeroContent } from "@/types/portfolio"
+import LoadingComponent from "@/components/LoadingComponent"
+import TextExplodeIMessage from "@/components/animata/text/text-explode-imessage"
+import { OrbitingCircles } from "@/components/magicui/orbiting-circles"
+import AnimatedSection from "@/components/animations/AnimatedSection"
+import { Code2, Palette, Smartphone, Database, Cpu, Globe, Zap, Shield } from "lucide-react"
 
 interface HeroProps {
-  data: HeroContent | null;
+  data: HeroContent | null
 }
 
 const Hero = ({ data }: HeroProps) => {
-  const { loading } = useHero();
+  const { loading } = useHero()
 
   if (loading || !data) {
     return (
@@ -35,7 +27,7 @@ const Hero = ({ data }: HeroProps) => {
           <LoadingComponent />
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -49,22 +41,13 @@ const Hero = ({ data }: HeroProps) => {
         />
 
         {/* Purple spotlight - top right */}
-        <Spotlight
-          className="absolute -top-10 left-[75%] h-[100vh] w-[65vw] opacity-25"
-          fill="#8B5CF6"
-        />
+        <Spotlight className="absolute -top-10 left-[75%] h-[100vh] w-[65vw] opacity-25" fill="#8B5CF6" />
 
         {/* Blue spotlight - center right */}
-        <Spotlight
-          className="absolute top-32 left-[45%] h-[100vh] w-[60vw] opacity-20"
-          fill="#3B82F6"
-        />
+        <Spotlight className="absolute top-32 left-[45%] h-[100vh] w-[60vw] opacity-20" fill="#3B82F6" />
 
         {/* Additional accent spotlight - bottom left */}
-        <Spotlight
-          className="absolute top-64 left-[10%] h-[80vh] w-[50vw] opacity-15"
-          fill="#10B981"
-        />
+        <Spotlight className="absolute top-64 left-[10%] h-[80vh] w-[50vw] opacity-15" fill="#10B981" />
       </div>
 
       {/* Grid Background */}
@@ -74,7 +57,7 @@ const Hero = ({ data }: HeroProps) => {
             "absolute inset-0",
             "[background-size:40px_40px]",
             "[background-image:linear-gradient(to_right,#e4e4e7_1px,transparent_1px),linear-gradient(to_bottom,#e4e4e7_1px,transparent_1px)]",
-            "dark:[background-image:linear-gradient(to_right,#262626_1px,transparent_1px),linear-gradient(to_bottom,#262626_1px,transparent_1px)]"
+            "dark:[background-image:linear-gradient(to_right,#262626_1px,transparent_1px),linear-gradient(to_bottom,#262626_1px,transparent_1px)]",
           )}
         />
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-black-100" />
@@ -83,12 +66,7 @@ const Hero = ({ data }: HeroProps) => {
       {/* Orbiting Circles Background */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         {/* Outer orbit - slower, larger icons */}
-        <OrbitingCircles
-          className="size-[50px] border-none bg-transparent"
-          duration={30}
-          radius={280}
-          iconSize={50}
-        >
+        <OrbitingCircles className="size-[50px] border-none bg-transparent" duration={30} radius={280} iconSize={50}>
           <div className="flex items-center justify-center size-full rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-white/10">
             <Code2 className="text-blue-400" size={24} />
           </div>
@@ -123,12 +101,7 @@ const Hero = ({ data }: HeroProps) => {
         </OrbitingCircles>
 
         {/* Inner orbit - faster, smaller icons */}
-        <OrbitingCircles
-          className="size-[30px] border-none bg-transparent"
-          duration={15}
-          radius={120}
-          iconSize={30}
-        >
+        <OrbitingCircles className="size-[30px] border-none bg-transparent" duration={15} radius={120} iconSize={30}>
           <div className="flex items-center justify-center size-full rounded-full bg-gradient-to-r from-rose-500/20 to-pink-500/20 backdrop-blur-sm border border-white/10">
             <Shield className="text-rose-400" size={16} />
           </div>
@@ -138,30 +111,33 @@ const Hero = ({ data }: HeroProps) => {
         </OrbitingCircles>
       </div>
 
-      {/* Content */}
+      {/* Content - Animated */}
       <div className="flex justify-center relative my-20 z-10">
         <div className="max-w-[89vw] md:max-w-2xl lg:max-w-[60vw] flex flex-col items-center justify-center">
-          <TextExplodeIMessage className="text-blue-100 mb-4" text={data.title} />
+          <AnimatedSection animation="fadeIn" delay={0.2}>
+            <TextExplodeIMessage className="text-blue-100 mb-4" text={data.title} />
+          </AnimatedSection>
 
-          <TextGenerateEffect
-            className="text-center text-[48px] md:text-6xl lg:text-7xl mb-6"
-            words={data.description}
-          />
-
-          <TextExplodeIMessage className="text-blue-100 mb-8" text={data.subtitle} />
-
-          <Link href={"https://berhabzakarya.studxptm.com/cv_berhab_zakarya.pdf"}>
-            <MagicButton
-              title="My Work"
-              icon={<FaLocationArrow />}
-              position={"right"}
-              
+          <AnimatedSection animation="scaleIn" delay={0.4}>
+            <TextGenerateEffect
+              className="text-center text-[48px] md:text-6xl lg:text-7xl mb-6"
+              words={data.description}
             />
-          </Link>
+          </AnimatedSection>
+
+          <AnimatedSection animation="fadeIn" delay={0.6}>
+            <TextExplodeIMessage className="text-blue-100 mb-8" text={data.subtitle} />
+          </AnimatedSection>
+
+          <AnimatedSection animation="scaleIn" delay={0.8}>
+            <Link href={"https://berhabzakarya.studxptm.com/cv_berhab_zakarya.pdf"}>
+              <MagicButton title="My Work" icon={<FaLocationArrow />} position={"right"} />
+            </Link>
+          </AnimatedSection>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Hero;
+export default Hero
