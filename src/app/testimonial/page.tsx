@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Testimonial } from "@/types/portfolio"
-import { Upload,  X } from "lucide-react"
+import { Upload, X } from "lucide-react"
 import Image from "next/image"
 import { useTestimonials } from "@/hooks/use-testimonials"
 
@@ -12,7 +12,7 @@ export default function AddTestimonialPage() {
     quote: "",
     name: "",
     title: "",
-    avatar: "/avataaars.svg",
+    avatar: "/avatar_testi.png",
   })
   const [previewImage, setPreviewImage] = useState<string | null>(null)
   const [file, setFile] = useState<File | null>(null)
@@ -35,47 +35,70 @@ export default function AddTestimonialPage() {
       reader.readAsDataURL(selectedFile)
     }
   }
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
 
-  // Client-side validation
-  if (!formData.quote.trim() || !formData.name.trim() || !formData.title.trim()) {
-    alert("Please fill in all required fields: Quote, Name, and Title.");
-    return;
-  }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-  try {
-    const testimonialData = new FormData();
-    testimonialData.append("quote", formData.quote);
-    testimonialData.append("name", formData.name);
-    testimonialData.append("title", formData.title);
-    if (file) {
-      testimonialData.append("avatar", file);
-    } else {
-      const response = await fetch("/avataaars.svg");
-      const blob = await response.blob();
-      const defaultFile = new File([blob], "avataaars.svg", { type: blob.type });
-      testimonialData.append("avatar", defaultFile);
+    // Client-side validation
+    if (!formData.quote.trim() || !formData.name.trim() || !formData.title.trim()) {
+      alert("Please fill in all required fields: Quote, Name, and Title.");
+      return;
     }
 
-    // Debug FormData contents
-    for (const [key, value] of testimonialData.entries()) {
-      console.log(`${key}:`, value);
-    }
+    try {
+      const testimonialData = new FormData();
+      testimonialData.append("quote", formData.quote);
+      testimonialData.append("name", formData.name);
+      testimonialData.append("title", formData.title);
+      
+      if (file) {
+        // User selected a custom file
+        testimonialData.append("avatar", file);
+      } else {
+        // Use default avatar from public folder
+        try {
+          const response = await fetch("/avatar_testi.png");
+          if (response.ok) {
+            const blob = await response.blob();
+            const defaultFile = new File([blob], "avatar_testi.png", { type: blob.type });
+            testimonialData.append("avatar", defaultFile);
+          } else {
+            throw new Error("Default avatar not found");
+          }
+        } catch (fetchError) {
+          console.error("Failed to fetch default avatar:", fetchError);
+          // If default avatar fetch fails, try to continue without it
+          // The backend should handle this case
+        }
+      }
 
-    await createTestimonial(testimonialData);
-    setFormData({
-      quote: "",
-      name: "",
-      title: "",
-      avatar: "/avataaars.svg",
-    });
-    setPreviewImage(null);
-    setFile(null);
-  } catch (err) {
-    console.error(err);
+      // Debug FormData contents
+      for (const [key, value] of testimonialData.entries()) {
+        console.log(`${key}:`, value);
+      }
+
+      await createTestimonial(testimonialData);
+      
+      // Reset form on success
+      setFormData({
+        quote: "",
+        name: "",
+        title: "",
+        avatar: "/avatar_testi.png",
+      });
+      setPreviewImage(null);
+      setFile(null);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const clearImage = () => {
+    setPreviewImage(null)
+    setFile(null)
+    setFormData((prev) => ({ ...prev, avatar: "/avatar_testi.png" }))
   }
-};
+
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100 flex items-center justify-center p-4">
       <div className="w-full max-w-2xl bg-gray-800 rounded-lg shadow-xl p-8">
@@ -136,9 +159,6 @@ const handleSubmit = async (e: React.FormEvent) => {
             />
           </div>
 
-        
-         
-
           <div>
             <label className="block text-sm font-medium mb-2">
               Avatar
@@ -146,7 +166,7 @@ const handleSubmit = async (e: React.FormEvent) => {
             <div className="flex items-center space-x-4">
               <div className="relative w-24 h-24 rounded-full overflow-hidden bg-gray-700">
                 <Image
-                  src={previewImage ?? formData.avatar ?? "/avataaars.svg"}
+                  src={previewImage ?? formData.avatar ?? "/avatar_testi.png"}
                   alt="Avatar preview"
                   layout="fill"
                   objectFit="cover"
@@ -166,11 +186,7 @@ const handleSubmit = async (e: React.FormEvent) => {
               {previewImage && (
                 <button
                   type="button"
-                  onClick={() => {
-                    setPreviewImage(null)
-                    setFile(null)
-                    setFormData((prev) => ({ ...prev, avatar: "/public/avataaars.svg" }))
-                  }}
+                  onClick={clearImage}
                   className="text-red-400 hover:text-red-300"
                 >
                   <X className="w-5 h-5" />
