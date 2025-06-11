@@ -1,5 +1,6 @@
 import { BentoGrid, BentoGridItem } from "../ui/bento-grid"
 import type { GridItem } from "@/types/portfolio"
+import AnimatedSection from "@/components/animations/AnimatedSection"
 
 // Static grid items configuration
 const gridItems: Partial<GridItem>[] = [
@@ -51,16 +52,16 @@ const gridItems: Partial<GridItem>[] = [
     img: "",
     spareImg: "",
   },
-];
+]
 
 interface GridProps {
-  data: GridItem[];
+  data: GridItem[]
 }
 
 const Grid = ({ data }: GridProps) => {
   // Merge static gridItems with API data just before return
   const mergedData: GridItem[] = gridItems.map((staticItem) => {
-    const apiItem = data.find((item) => item.id === staticItem.id);
+    const apiItem = data.find((item) => item.id === staticItem.id)
     return {
       id: staticItem.id!,
       title: apiItem?.title || "Default Title",
@@ -70,28 +71,30 @@ const Grid = ({ data }: GridProps) => {
       titleClassName: staticItem.titleClassName || "",
       img: staticItem.img || "",
       spareImg: staticItem.spareImg || "",
-    };
-  });
+    }
+  })
 
   return (
     <section id="about">
-      <BentoGrid className="w-full py-20 px-8">
-        {mergedData.map((item) => (
-          <BentoGridItem
-            id={item.id}
-            key={item.id}
-            title={item.title}
-            description={item.description}
-            className={item.class_name}
-            img={item.img}
-            imgClassName={item.imgClassName}
-            titleClassName={item.titleClassName}
-            spareImg={item.spareImg}
-          />
-        ))}
-      </BentoGrid>
+      <AnimatedSection animation="slideLeft" className="w-full pb-20 px-8">
+        <BentoGrid className="w-full">
+          {mergedData.map((item) => (
+            <BentoGridItem
+              key={item.id}
+              id={item.id}
+              title={item.title}
+              description={item.description}
+              className={item.class_name}
+              img={item.img}
+              imgClassName={item.imgClassName}
+              titleClassName={item.titleClassName}
+              spareImg={item.spareImg}
+            />
+          ))}
+        </BentoGrid>
+      </AnimatedSection>
     </section>
-  );
-};
+  )
+}
 
-export default Grid;
+export default Grid

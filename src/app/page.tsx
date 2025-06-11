@@ -54,7 +54,7 @@ const Home = () => {
       <div className="min-h-screen flex items-center justify-center bg-black-100">
         <div className="text-center justify-center items-center flex flex-col">
           <LoadingComponent />
-          <p className="mt-4 text-white-200">Loading portfolio data...</p>
+          <p className="mt-4 text-white-200">Loading portfolio ...</p>
         </div>
       </div>
     )

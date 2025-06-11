@@ -42,20 +42,23 @@ const Experience = ({ data }: ExperienceProps) => {
   })
 
   return (
-    <div className="py-20 w-full px-8">
+    <div className="py-10 sm:py-16 lg:py-20 w-full px-4 sm:px-6 lg:px-8">
       <AnimatedSection animation="slideLeft">
-        <div className="text-center mb-16">
-          <h1 className="heading text-4xl md:text-6xl font-bold bg-gradient-to-r from-white via-purple-200 to-purple-400 bg-clip-text text-transparent mb-4">
+        <div className="text-center mb-12 sm:mb-16">
+          <h1 className="heading text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold bg-gradient-to-r from-white via-purple-200 to-purple-400 bg-clip-text text-transparent mb-4">
             My Work
             <span className="block text-purple-400 mt-2">Experience</span>
           </h1>
-          <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-blue-500 mx-auto rounded-full" />
+          <div className="w-16 sm:w-20 lg:w-24 h-1 bg-gradient-to-r from-purple-500 to-blue-500 mx-auto rounded-full" />
         </div>
       </AnimatedSection>
 
-      <AnimatedSection animation="stagger" className="w-full mt-12 grid lg:grid-cols-4 grid-cols-1 gap-10">
+      <AnimatedSection
+        animation="stagger"
+        className="w-full mt-8 sm:mt-10 lg:mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10"
+      >
         {mergedData.map((card) => (
-          <StaggeredItem key={card.id} className="flex-1">
+          <StaggeredItem key={card.id} className="w-full">
             <Button
               duration={Math.floor(Math.random() * 10000) + 10000}
               borderRadius="1.75rem"
@@ -64,19 +67,21 @@ const Experience = ({ data }: ExperienceProps) => {
                 backgroundColor: "linear-gradient(90deg, rgba(4,7,29,1) 0%, rgba(12,14,35,1) 100%)",
                 borderRadius: `calc(1.75rem* 0.96)`,
               }}
-              className="flex-1 text-black dark:text-white border-neutral-200 dark:border-slate-800"
+              className="w-full h-full text-black dark:text-white border-neutral-200 dark:border-slate-800"
             >
-              <div className="flex lg:flex-row flex-col lg:items-center p-3 py-6 md:p-5 lg:p-10 gap-2">
-                <Image
-                  width={128}
-                  height={64}
-                  src={card.thumbnail || "/placeholder.svg"}
-                  alt={card.thumbnail}
-                  className="lg:w-32 md:w-20 w-16"
-                />
-                <div className="lg:ms-5">
-                  <h1 className="text-start text-xl md:text-2xl font-bold">{card.title}</h1>
-                  <p className="text-start text-white-100 mt-3 font-semibold">{card.desc}</p>
+              <div className="flex flex-col sm:flex-col lg:flex-row lg:items-center p-4 sm:p-5 lg:p-6 xl:p-10 gap-3 sm:gap-4 lg:gap-2 min-h-[200px] sm:min-h-[220px] lg:min-h-[180px]">
+                <div className="flex justify-center lg:justify-start flex-shrink-0">
+                  <Image
+                    width={128}
+                    height={64}
+                    src={card.thumbnail || "/placeholder.svg"}
+                    alt={card.title}
+                    className="w-16 sm:w-20 md:w-24 lg:w-28 xl:w-32 h-auto object-contain"
+                  />
+                </div>
+                <div className="text-center lg:text-left lg:ms-3 xl:ms-5 flex-1">
+                  <h1 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 sm:mb-3 leading-tight">{card.title}</h1>
+                  <p className="text-white-100 text-sm sm:text-base font-semibold leading-relaxed">{card.desc}</p>
                 </div>
               </div>
             </Button>

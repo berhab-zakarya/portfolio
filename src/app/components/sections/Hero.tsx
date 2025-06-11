@@ -12,6 +12,7 @@ import TextExplodeIMessage from "@/components/animata/text/text-explode-imessage
 import { OrbitingCircles } from "@/components/magicui/orbiting-circles"
 import AnimatedSection from "@/components/animations/AnimatedSection"
 import { Code2, Palette, Smartphone, Database, Cpu, Globe, Zap, Shield } from "lucide-react"
+import { useEffect, useState } from "react"
 
 interface HeroProps {
   data: HeroContent | null
@@ -19,39 +20,82 @@ interface HeroProps {
 
 const Hero = ({ data }: HeroProps) => {
   const { loading } = useHero()
+  const [showContent, setShowContent] = useState(false)
 
-  if (loading || !data) {
+  useEffect(() => {
+    if (!loading && data) {
+      const timer = setTimeout(() => {
+        setShowContent(true)
+      }, 1000) // 1 second delay for smooth rendering
+
+      return () => clearTimeout(timer)
+    }
+  }, [loading, data])
+
+  if (loading || !data || !showContent) {
     return (
-      <div className="text-center">
-        <div role="status">
-          <LoadingComponent />
+      <div className="pb-20 pt-36 relative overflow-hidden min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div role="status">
+            <LoadingComponent />
+          </div>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="pb-20 pt-36 relative overflow-hidden">
-      {/* Spotlight Effects */}
+    <div className="pt-40 relative overflow-hidden h-[90vh]">
+      {/* Theater Footlights */}
       <div>
-        {/* Main white spotlight - top left */}
+        {/* Center footlight - main white */}
         <Spotlight
-          className="absolute -top-40 -left-20 md:-top-24 md:-left-40 h-[120vh] w-[80vw] opacity-30"
+          className="absolute bottom-[-20%] left-1/2 transform -translate-x-1/2 rotate-180 h-[120vh] w-[50vw] opacity-35"
           fill="white"
         />
 
-        {/* Purple spotlight - top right */}
-        <Spotlight className="absolute -top-10 left-[75%] h-[100vh] w-[65vw] opacity-25" fill="#8B5CF6" />
+        {/* Left footlight - amber */}
+        <Spotlight
+          className="absolute bottom-[-20%] left-[15%] rotate-180 h-[110vh] w-[40vw] opacity-30"
+          fill="#FFB347"
+        />
 
-        {/* Blue spotlight - center right */}
-        <Spotlight className="absolute top-32 left-[45%] h-[100vh] w-[60vw] opacity-20" fill="#3B82F6" />
+        {/* Right footlight - amber */}
+        <Spotlight
+          className="absolute bottom-[-20%] right-[15%] rotate-180 h-[110vh] w-[40vw] opacity-30"
+          fill="#FFB347"
+        />
 
-        {/* Additional accent spotlight - bottom left */}
-        <Spotlight className="absolute top-64 left-[10%] h-[80vh] w-[50vw] opacity-15" fill="#10B981" />
+        {/* Far left footlight - blue */}
+        <Spotlight
+          className="absolute bottom-[-15%] left-[2%] rotate-180 h-[100vh] w-[30vw] opacity-25"
+          fill="#4169E1"
+        />
+
+        {/* Far right footlight - blue */}
+        <Spotlight
+          className="absolute bottom-[-15%] right-[2%] rotate-180 h-[100vh] w-[30vw] opacity-25"
+          fill="#4169E1"
+        />
+
+        {/* Center-left footlight - lavender */}
+        <Spotlight
+          className="absolute bottom-[-18%] left-[30%] rotate-180 h-[105vh] w-[35vw] opacity-28"
+          fill="#E6E6FA"
+        />
+
+        {/* Center-right footlight - lavender */}
+        <Spotlight
+          className="absolute bottom-[-18%] right-[30%] rotate-180 h-[105vh] w-[35vw] opacity-28"
+          fill="#E6E6FA"
+        />
       </div>
 
+      {/* Footlight fixture visual elements */}
+   
+
       {/* Grid Background */}
-      <div className="flex h-screen w-full items-center justify-center bg-white dark:bg-black-100 absolute top-0 left-0">
+      <div className="flex min-h-screen w-full items-center justify-center bg-white dark:bg-black-100 absolute top-0 left-0">
         <div
           className={cn(
             "absolute inset-0",
@@ -130,8 +174,8 @@ const Hero = ({ data }: HeroProps) => {
           </AnimatedSection>
 
           <AnimatedSection animation="scaleIn" delay={0.8}>
-            <Link href={"https://berhabzakarya.studxptm.com/cv_berhab_zakarya.pdf"}>
-              <MagicButton title="My Work" icon={<FaLocationArrow />} position={"right"} />
+            <Link href={"http://berhabzakarya.studxptm.com/media/berhab_zakarya_cv.pdf"} target="_blank">
+              <MagicButton title="Download CV" icon={<FaLocationArrow />} position={"right"} />
             </Link>
           </AnimatedSection>
         </div>

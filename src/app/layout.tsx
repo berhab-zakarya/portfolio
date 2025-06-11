@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Alumni_Sans } from "next/font/google";
+import { Alumni_Sans,Poppins } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import { SpeedInsights } from "@vercel/speed-insights/next"
@@ -9,7 +9,11 @@ const alumni = Alumni_Sans({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
-
+const PoppinsFont = Poppins({
+  subsets: ["latin"],
+  variable: "--font-poppins",
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+});
 
 export const metadata: Metadata = {
   title: "Zakarya Berhab – Fullstack Developer | Mobile & Web Solutions",
@@ -24,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${alumni.variable}  antialiased`}>
+    <html lang="en" className={`${alumni.variable} ${PoppinsFont.variable}  antialiased`}>
       <body
 
       >

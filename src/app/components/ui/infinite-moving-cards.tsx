@@ -4,7 +4,8 @@
 
 import { cn } from "@/lib/utils"
 import React, { useEffect, useState } from "react"
-import type { Testimonial } from "@/types/portfolio"
+import { motion, AnimatePresence } from "framer-motion"
+import { Testimonial } from "@/types/portfolio"
 import Image from "next/image"
 import { API_CONFIG } from "@/lib/constants"
 
@@ -23,14 +24,15 @@ export const InfiniteMovingCards = ({
 }) => {
   const containerRef = React.useRef<HTMLDivElement>(null)
   const scrollerRef = React.useRef<HTMLUListElement>(null)
+  const [start, setStart] = useState(false)
+  const [selectedTestimonial, setSelectedTestimonial] = useState<Testimonial | null>(null)
 
+  // eslint-disable-next-line react-hooks/e
   useEffect(() => {
     addAnimation()
-  }, [])
-  
-  const [start, setStart] = useState(false)
-  
-  function addAnimation() {
+  }, [ ])
+
+  const addAnimation = () => {
     if (containerRef.current && scrollerRef.current) {
       const scrollerContent = Array.from(scrollerRef.current.children)
 
@@ -46,7 +48,7 @@ export const InfiniteMovingCards = ({
       setStart(true)
     }
   }
-  
+
   const getDirection = () => {
     if (containerRef.current) {
       if (direction === "left") {
@@ -56,154 +58,241 @@ export const InfiniteMovingCards = ({
       }
     }
   }
-  
+
   const getSpeed = () => {
     if (containerRef.current) {
       if (speed === "fast") {
-        containerRef.current.style.setProperty("--animation-duration", "15s")
+        containerRef.current.style.setProperty("--animation-duration", "20s")
       } else if (speed === "normal") {
-        containerRef.current.style.setProperty("--animation-duration", "30s")
+        containerRef.current.style.setProperty("--animation-duration", "40s")
       } else {
-        containerRef.current.style.setProperty("--animation-duration", "60s")
+        containerRef.current.style.setProperty("--animation-duration", "80s")
       }
     }
   }
-  
+
+  const truncateText = (text: string, maxLength = 140) => {
+    if (text.length <= maxLength) return text
+    return text.substring(0, maxLength) + "..."
+  }
+
+  const closeModal = () => {
+    setSelectedTestimonial(null)
+  }
+
+  // Helper function to get the correct avatar URL
+  const getAvatarUrl = (avatar: string | null | undefined) => {
+    if (!avatar) return "/avatars.svg"
+    // Check if avatar already includes the full URL
+    if (avatar.startsWith('http')) return avatar
+    // Construct the full URL
+    return `${API_CONFIG.URL}${avatar.startsWith('/') ? avatar : `/${avatar}`}`
+  }
+
   return (
-    <div
-      ref={containerRef}
-      className={cn(
-        "scroller relative z-20 w-full overflow-hidden",
-        // Enhanced blur mask - stronger blur from left and right edges
-        "[mask-image:linear-gradient(to_right,transparent_0%,rgba(255,255,255,0.3)_5%,white_15%,white_85%,rgba(255,255,255,0.3)_95%,transparent_100%)]",
-        // Stronger side gradients for better blur effect
-        "before:absolute before:left-0 before:top-0 before:z-10 before:h-full before:w-32 before:bg-gradient-to-r before:from-black before:via-black/80 before:to-transparent",
-        "after:absolute after:right-0 after:top-0 after:z-10 after:h-full after:w-32 after:bg-gradient-to-l after:from-black after:via-black/80 after:to-transparent",
-        className,
-      )}
-    >
-      <ul
-        ref={scrollerRef}
+    <>
+      <div
+        ref={containerRef}
         className={cn(
-          "flex min-w-full shrink-0 gap-6 py-6 w-max flex-nowrap",
-          start && "animate-scroll",
-          pauseOnHover && "hover:[animation-play-state:paused]",
+          "scroller relative z-20 max-w-[1600px] overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_20%,white_80%,transparent)] --font-poppins",
+          className,
         )}
       >
-        {items.map((item, idx) => (
-          <li
-            className={cn(
-              "w-[85vw] max-w-full relative rounded-2xl flex-shrink-0 md:w-[55vw] lg:w-[40vw]",
-              "bg-gradient-to-br from-slate-900/95 via-slate-800/95 to-slate-900/95",
-              "border border-slate-700/60 backdrop-blur-lg",
-              "p-6 md:p-8",
-              "shadow-2xl shadow-black/40",
-              "hover:shadow-3xl hover:shadow-purple-500/20 hover:border-purple-500/40",
-              "transition-all duration-700 ease-out",
-              "hover:scale-[1.03] hover:-translate-y-2",
-              "group relative overflow-hidden"
-            )}
-            key={idx}
-          >
-            {/* Enhanced animated background gradient */}
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-purple-600/10 via-blue-600/8 to-cyan-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-            
-            {/* Stronger border glow */}
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-purple-500/30 via-transparent to-cyan-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-md -z-10" />
-            
-            {/* Animated shine effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 rounded-2xl" />
-            
-            <blockquote className="relative z-10">
-              {/* Enhanced quote icon */}
-              <div className="absolute -top-1 -left-1 text-5xl text-purple-400/40 font-serif leading-none select-none transition-colors duration-500 group-hover:text-purple-300/50">
-                "
+        <ul
+          ref={scrollerRef}
+          className={cn(
+            "flex min-w-full shrink-0 gap-8 py-6 w-max flex-nowrap",
+            start && "animate-scroll",
+            pauseOnHover && "hover:[animation-play-state:paused]",
+          )}
+        >
+          {items.map((item, idx) => (
+            <motion.li
+              key={idx}
+              whileHover={{ 
+                scale: 1.02,
+                y: -4,
+                transition: { duration: 0.2, ease: "easeOut" }
+              }}
+              className="w-[90vw] max-w-full relative rounded-3xl border border-slate-700/30 flex-shrink-0 px-8 py-8 md:w-[65vw] lg:w-[480px] group cursor-pointer transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/10 backdrop-blur-sm"
+              style={{
+                background: "linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.6) 50%, rgba(15, 23, 42, 0.9) 100%)",
+              }}
+              onClick={() => setSelectedTestimonial(item)}
+            >
+              {/* Animated border gradient */}
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-purple-500/20 via-blue-500/20 to-purple-500/20 p-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute inset-[1px] rounded-3xl bg-gradient-to-br from-slate-900/90 to-slate-800/90" />
               </div>
-              
-              {/* Quote text with better typography */}
-              <div className="relative pt-4">
-                <span className={cn(
-                  "relative z-20 block text-base md:text-lg leading-relaxed",
-                  "text-slate-200 font-medium tracking-wide",
-                  "group-hover:text-white transition-colors duration-500",
-                  "selection:bg-purple-500/30"
-                )}>
-                  {item.quote}
-                </span>
-              </div>
-              
-              {/* Enhanced author section */}
-              <div className="relative z-20 mt-6 flex flex-row items-center gap-4">
-                {/* Simplified HD avatar */}
-                <div className="relative flex-shrink-0">
-                  <div className={cn(
-                    "relative h-12 w-12 md:h-14 md:w-14 rounded-full overflow-hidden",
-                    "ring-2 ring-slate-600/50 group-hover:ring-purple-400/60",
-                    "shadow-lg shadow-black/50",
-                    "transition-all duration-500 group-hover:scale-110 group-hover:shadow-xl group-hover:shadow-purple-500/30"
-                  )}>
-                    <Image
-                      src={item.avatar ? `${API_CONFIG.URL}${item.avatar}` : "/api/placeholder/56/56"}
-                      alt={`${item.name}'s profile`}
-                      width={56}
-                      height={56}
-                      className="object-cover h-full w-full transition-transform duration-500 group-hover:scale-105"
-                      priority={idx < 3}
-                    />
-                    
-                    {/* Simple overlay for better contrast */}
-                    <div className="absolute inset-0 ring-1 ring-black/20 rounded-full" />
+
+              <blockquote className="relative z-10">
+                {/* Quote icon */}
+                <div className="mb-4 opacity-60">
+                  <svg className="w-6 h-6 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z" />
+                  </svg>
+                </div>
+
+                {/* Quote with enhanced typography */}
+                <p className="relative z-20 text-lg leading-relaxed text-gray-100 font-normal font-['var(--font-poppins)'] mb-6 group-hover:text-white transition-colors duration-300">
+                  {truncateText(item.quote, 140)}
+                </p>
+
+                {/* Show "Read more" if text is truncated */}
+                {item.quote.length > 140 && (
+                  <div className="mb-4">
+                    <span className="text-purple-400 text-sm font-medium hover:text-purple-300 transition-colors duration-200 font-['var(--font-poppins)'] flex items-center gap-1">
+                      Read full testimonial
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </span>
                   </div>
-                  
-                  {/* Subtle pulse on hover */}
-                  <div className="absolute inset-0 rounded-full bg-purple-500/20 animate-pulse opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                )}
+
+                {/* Author info with enhanced styling */}
+                <div className="relative z-20 flex items-center gap-4 pt-4 border-t border-slate-700/30">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 p-[2px] flex-shrink-0">
+                    <div className="w-full h-full rounded-full bg-slate-800 flex items-center justify-center overflow-hidden">
+                      <Image
+                        src={getAvatarUrl(item.avatar)}
+                        alt={item.name}
+                        width={40}
+                        height={40}
+                        className="w-10 h-10 rounded-full object-cover"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement
+                          target.src = "/avatars.svg"
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="text-white font-semibold text-base font-['var(--font-poppins)'] truncate">
+                      {item.name}
+                    </h4>
+                    <p className="text-gray-400 text-sm font-['var(--font-poppins)'] truncate">
+                      {item.title}
+                    </p>
+                  </div>
                 </div>
-                
-                {/* Enhanced author info */}
-                <div className="flex flex-col gap-1 min-w-0 flex-1">
-                  <span className={cn(
-                    "text-lg md:text-xl font-bold leading-tight truncate",
-                    "bg-gradient-to-r from-white via-slate-100 to-slate-200 bg-clip-text text-transparent",
-                    "group-hover:from-purple-200 group-hover:via-white group-hover:to-cyan-200",
-                    "transition-all duration-500"
-                  )}>
-                    {item.name}
-                  </span>
-                  
-                  <span className={cn(
-                    "text-sm md:text-base leading-tight font-medium truncate",
-                    "text-slate-400 group-hover:text-slate-300",
-                    "transition-colors duration-500"
-                  )}>
-                    {item.title}
-                  </span>
+              </blockquote>
+
+              {/* Subtle glow effect */}
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-purple-500/5 via-transparent to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+            </motion.li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Enhanced Glassmorphism Modal */}
+      <AnimatePresence>
+        {selectedTestimonial && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 font-['var(--font-poppins)']"
+            onClick={closeModal}
+          >
+            {/* Enhanced backdrop with blur */}
+            <motion.div 
+              initial={{ backdropFilter: "blur(0px)" }}
+              animate={{ backdropFilter: "blur(20px)" }}
+              exit={{ backdropFilter: "blur(0px)" }}
+              className="absolute inset-0 bg-black/60" 
+            />
+
+            {/* Modal Content */}
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="relative z-10 w-full max-w-3xl mx-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="bg-gradient-to-br from-slate-900/95 to-slate-800/95 backdrop-blur-2xl border border-slate-700/40 rounded-3xl p-10 shadow-2xl relative overflow-hidden">
+                {/* Animated background elements */}
+                <div className="absolute -top-20 -right-20 w-40 h-40 bg-gradient-to-r from-purple-500/10 to-blue-500/10 rounded-full blur-3xl animate-pulse" />
+                <div className="absolute -bottom-20 -left-20 w-32 h-32 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-full blur-3xl animate-pulse" />
+
+                {/* Close button */}
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={closeModal}
+                  className="absolute top-6 right-6 w-10 h-10 rounded-full bg-slate-700/50 hover:bg-slate-600/50 transition-all duration-200 flex items-center justify-center text-gray-400 hover:text-white z-10"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </motion.button>
+
+                {/* Quote icon */}
+                <div className="mb-8 relative z-10">
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-r from-purple-500/20 to-blue-500/20 flex items-center justify-center">
+                    <svg className="w-8 h-8 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Full quote with enhanced typography */}
+                <blockquote className="mb-10 relative z-10">
+                  <p className="text-xl leading-relaxed text-gray-100 font-normal">
+                    {selectedTestimonial.quote}
+                  </p>
+                </blockquote>
+
+                {/* Author info with enhanced design */}
+                <div className="flex items-center gap-6 relative z-10">
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-r from-purple-500 to-blue-500 p-[2px] flex-shrink-0">
+                    <div className="w-full h-full rounded-2xl bg-slate-800 flex items-center justify-center overflow-hidden">
+                      <Image
+                        src={getAvatarUrl(selectedTestimonial.avatar)}
+                        alt={selectedTestimonial.name}
+                        width={56}
+                        height={56}
+                        className="w-14 h-14 rounded-2xl object-cover"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement
+                          target.src = "/avatars.svg"
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <h4 className="text-white font-semibold text-xl mb-1">
+                      {selectedTestimonial.name}
+                    </h4>
+                    <p className="text-gray-400 text-base">
+                      {selectedTestimonial.title}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Enhanced border gradient */}
+                <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-purple-500/20 via-blue-500/20 to-purple-500/20 p-[1px] opacity-60">
+                  <div className="absolute inset-[1px] rounded-3xl bg-gradient-to-br from-slate-900/0 to-slate-800/0" />
                 </div>
               </div>
-              
-              {/* Minimalist decorative elements */}
-              <div className="absolute bottom-3 right-3 opacity-10 group-hover:opacity-25 transition-opacity duration-500">
-                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-cyan-500 blur-sm" />
-              </div>
-            </blockquote>
-          </li>
-        ))}
-      </ul>
-      
-      {/* Custom CSS for animation */}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <style jsx>{`
-        @keyframes scroll {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(calc(-50% - 12px));
-          }
-        }
-        
         .animate-scroll {
-          animation: scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite;
+          animation: scroll var(--animation-duration) linear infinite var(--animation-direction);
+        }
+        @keyframes scroll {
+          to {
+            transform: translate(calc(-50% - 1rem));
+          }
         }
       `}</style>
-    </div>
+    </>
   )
 }
