@@ -134,7 +134,7 @@ export const InfiniteMovingCards = ({
                 </div>
 
                 {/* Quote with enhanced typography */}
-                <p className="relative z-20 text-lg leading-relaxed text-gray-100 font-normal font-['var(--font-poppins)'] mb-6 group-hover:text-white transition-colors duration-300">
+                <p className="relative z-20 text-lg leading-relaxed text-gray-100 font-normal font-['var(--font-poppins)'] mb-6 group-hover:text-white transition-colors duration-300 --font-poppins">
                   {truncateText(item.quote, 140)}
                 </p>
 
@@ -171,7 +171,7 @@ export const InfiniteMovingCards = ({
                     <h4 className="text-white font-semibold text-base font-['var(--font-poppins)'] truncate">
                       {item.name}
                     </h4>
-                    <p className="text-gray-400 text-sm font-['var(--font-poppins)'] truncate">
+                    <p className="text-gray-400 text-sm font-['var(--font-poppins)'] truncate --font-poppins">
                       {item.title}
                     </p>
                   </div>
@@ -241,7 +241,7 @@ export const InfiniteMovingCards = ({
 
                 {/* Full quote with enhanced typography */}
                 <blockquote className="mb-10 relative z-10">
-                  <p className="text-xl leading-relaxed text-gray-100 font-normal">
+                  <p className="text-xl leading-relaxed text-gray-100 font-normal --font-poppins font-['var(--font-poppins)'] ">
                     {selectedTestimonial.quote}
                   </p>
                 </blockquote>
@@ -267,7 +267,7 @@ export const InfiniteMovingCards = ({
                     <h4 className="text-white font-semibold text-xl mb-1">
                       {selectedTestimonial.name}
                     </h4>
-                    <p className="text-gray-400 text-base">
+                    <p className="text-gray-400 text-base --font-poppins font-['var(--font-poppins)']">
                       {selectedTestimonial.title}
                     </p>
                   </div>

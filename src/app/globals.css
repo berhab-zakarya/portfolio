@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 *{
-  font-family: var(--font-alumni);
+  font-family: var(--font-alumni), var(--font-poppins);
 }
 @layer base {
   :root {
