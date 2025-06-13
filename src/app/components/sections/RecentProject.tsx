@@ -1,13 +1,14 @@
 "use client"
 
+import { useState } from "react"
 import { FaGithub, FaExternalLinkAlt } from "react-icons/fa"
 import { PinContainer } from "../ui/3d-pin"
 import type { Project } from "@/types/portfolio"
 import Image from "next/image"
 import { API_CONFIG } from "@/lib/constants"
-import { useState } from "react"
 import AnimatedSection from "@/components/animations/AnimatedSection"
 import StaggeredItem from "@/components/animations/StaggeredItem"
+import ProjectModal from "./project-modal"
 
 interface RecentProjectProps {
   data: Project[]
@@ -15,9 +16,27 @@ interface RecentProjectProps {
 
 const RecentProjects = ({ data }: RecentProjectProps) => {
   const [imageErrors, setImageErrors] = useState<Set<string>>(new Set())
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
   const handleImageError = (projectId: string) => {
     setImageErrors((prev) => new Set([...prev, projectId]))
+  }
+
+  const openProjectModal = (project: Project) => {
+    console.log("Opening modal with project:", project) // Add this for debugging
+    setSelectedProject(project)
+    setIsModalOpen(true)
+    // Prevent body scroll when modal is open
+    document.body.style.overflow = "hidden"
+  }
+
+  const closeProjectModal = () => {
+    console.log("Closing modal") // Add this for debugging
+    setSelectedProject(null)
+    setIsModalOpen(false)
+    // Restore body scroll when modal is closed
+    document.body.style.overflow = "auto"
   }
 
   const renderTechStack = (iconLists: string[], maxVisible = 4) => {
@@ -153,81 +172,92 @@ const RecentProjects = ({ data }: RecentProjectProps) => {
             key={item.id}
             className="lg:min-h-[40rem] h-[35rem] flex items-center justify-center sm:w-[28rem] w-[90vw]"
           >
-            <PinContainer
-              title={item.link ? "Visit Live Site" : "View on GitHub"}
-              href={item.link || `https://github.com/berhab-zakarya/${item.title.toLowerCase().replace(/\s+/g, "-")}`}
-              className="transition-all duration-500 hover:scale-[1.02]"
-            >
-              {/* Enhanced Image Container */}
-              <div className="relative flex items-center justify-center sm:w-[28rem] w-[90vw] overflow-hidden h-[25vh] lg:h-[35vh] group">
+            <div className="cursor-pointer">
+              <PinContainer
+                onClick={() => {
+                  console.log("Opening modal for:", item.title) // Add this for debugging
+                  openProjectModal(item)
+                }}
+                title={item.link ? "View Project Details" : "View Project Details"}
+                className="transition-all duration-500 hover:scale-[1.02]"
+              >
+                {/* Enhanced Image Container */}
                 <div
-                  className="relative w-full h-full overflow-hidden lg:rounded-3xl rounded-2xl shadow-2xl"
-                  style={{ backgroundColor: "#13162D" }}
+                  className="relative flex items-center justify-center sm:w-[28rem] w-[90vw] overflow-hidden h-[25vh] lg:h-[35vh] group"
+                  onClick={() => openProjectModal(item)}
                 >
-                  <Image
-                    src="/bg.png"
-                    alt="background"
-                    fill
-                    style={{ objectFit: "cover" }}
-                    priority
-                    className="transition-transform duration-700 group-hover:scale-110"
-                  />
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent lg:rounded-3xl rounded-2xl" />
-                </div>
+                  <div
+                    className="relative w-full h-full overflow-hidden lg:rounded-3xl rounded-2xl shadow-2xl"
+                    style={{ backgroundColor: "#13162D" }}
+                  >
+                    <Image
+                      src="/bg.png"
+                      alt="background"
+                      fill
+                      style={{ objectFit: "cover" }}
+                      priority
+                      className="transition-transform duration-700 group-hover:scale-110"
+                    />
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent lg:rounded-3xl rounded-2xl" />
+                  </div>
 
-                {!imageErrors.has(String(item.id)) ? (
-                  <Image
-                    src={`${API_CONFIG.URL}${item.img}`}
-                    alt={item.title}
-                    width={450}
-                    height={180}
-                    className="z-10 absolute top-0 left-0 w-full h-full lg:rounded-3xl rounded-2xl transition-all duration-700 group-hover:scale-105 mb-8"
-                    style={{ objectFit: "contain" }}
-                    priority
-                    onError={() => handleImageError(String(item.id))}
-                  />
-                ) : (
-                  <div className="z-10 absolute top-0 left-0 w-full h-full lg:rounded-3xl rounded-2xl flex items-center justify-center bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm">
-                    <div className="text-center">
-                      <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-gray-700/50 flex items-center justify-center">
-                        <FaGithub className="text-gray-400" size={24} />
+                  {!imageErrors.has(String(item.id)) ? (
+                    <Image
+                      src={`${API_CONFIG.URL}${item.img}`}
+                      alt={item.title}
+                      width={450}
+                      height={180}
+                      className="z-10 absolute top-0 left-0 w-full h-full lg:rounded-3xl rounded-2xl transition-all duration-700 group-hover:scale-105 mb-8"
+                      style={{ objectFit: "contain" }}
+                      priority
+                      onError={() => handleImageError(String(item.id))}
+                    />
+                  ) : (
+                    <div className="z-10 absolute top-0 left-0 w-full h-full lg:rounded-3xl rounded-2xl flex items-center justify-center bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm">
+                      <div className="text-center">
+                        <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-gray-700/50 flex items-center justify-center">
+                          <FaGithub className="text-gray-400" size={24} />
+                        </div>
+                        <p className="text-gray-400 text-sm font-medium">{item.title}</p>
                       </div>
-                      <p className="text-gray-400 text-sm font-medium">{item.title}</p>
                     </div>
-                  </div>
-                )}
+                  )}
 
-                {/* Project Status Badge */}
-                {item.link && (
-                  <div className="absolute top-4 right-4 z-20">
-                    <div className="px-3 py-1 rounded-full bg-green-500/20 border border-green-400/30 backdrop-blur-sm">
-                      <span className="text-xs font-medium text-green-300">Live</span>
+                  {/* Project Status Badge */}
+                  {item.link && (
+                    <div className="absolute top-4 right-4 z-20">
+                      <div className="px-3 py-1 rounded-full bg-green-500/20 border border-green-400/30 backdrop-blur-sm">
+                        <span className="text-xs font-medium text-green-300">Live</span>
+                      </div>
                     </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Enhanced Content */}
-              <div className="space-y-4">
-                <h1 className="font-bold lg:text-2xl md:text-xl text-lg line-clamp-1 text-white group-hover:text-blue-300 transition-colors duration-300">
-                  {item.title}
-                </h1>
-
-                <p className="lg:text-base md:text-sm text-sm line-clamp-3 leading-relaxed text-gray-300">
-                  {item.des || "No description available for this project."}
-                </p>
-
-                {/* Enhanced Tech Stack & Actions */}
-                <div className="flex items-center justify-between pt-4 border-t border-gray-700/50">
-                  {renderTechStack(item.iconLists)}
-                  {renderProjectActions(item)}
+                  )}
                 </div>
-              </div>
-            </PinContainer>
+
+                {/* Enhanced Content */}
+                <div className="space-y-4">
+                  <h1 className="font-bold lg:text-2xl md:text-xl text-lg line-clamp-1 text-white group-hover:text-blue-300 transition-colors duration-300">
+                    {item.title}
+                  </h1>
+
+                  <p className="lg:text-base md:text-sm text-sm line-clamp-3 leading-relaxed text-gray-300">
+                    {item.des || "No description available for this project."}
+                  </p>
+
+                  {/* Enhanced Tech Stack & Actions */}
+                  <div className="flex items-center justify-between pt-4 border-t border-gray-700/50">
+                    {renderTechStack(item.iconLists)}
+                    {renderProjectActions(item)}
+                  </div>
+                </div>
+              </PinContainer>
+            </div>
           </StaggeredItem>
         ))}
       </AnimatedSection>
+
+      {/* Project Modal */}
+      <ProjectModal project={selectedProject} isOpen={isModalOpen} onClose={closeProjectModal} />
 
       {/* Footer CTA */}
       <AnimatedSection animation="fadeIn" delay={0.5}>

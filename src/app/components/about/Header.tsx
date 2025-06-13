@@ -43,7 +43,7 @@ export default function Header() {
       gradient: "from-[#8B5A3C] via-[#D4AF37] to-[#4A4A4A]"
     }
   ]
-
+  // eslint-disable-next-line
   useEffect(() => {
     const interval = setInterval(() => {
       setIsVisible(false)

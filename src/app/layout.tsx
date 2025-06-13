@@ -3,7 +3,6 @@ import { Alumni_Sans, Poppins } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import Head from "next/head";
 
 const alumni = Alumni_Sans({
   subsets: ["latin"],
