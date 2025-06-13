@@ -77,6 +77,46 @@ export const FloatingNav = ({
             <span className="text-sm !cursor-pointer">{navItem.name}</span>
           </a>
         ))}
+        
+        {/* Animated About Button */}
+        <motion.a
+          href="/about"
+          className="relative overflow-hidden border text-sm font-medium border-green-400 dark:border-green-400 text-white px-4 py-2 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 transition-all duration-300 shadow-lg hover:shadow-green-500/25 group"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <span className="relative z-10">Who ??</span>
+          
+          {/* Animated wave effect */}
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-green-300/30 to-transparent"
+            initial={{ x: "-100%" }}
+            animate={{ x: "100%" }}
+            transition={{
+              repeat: Infinity,
+              duration: 2,
+              ease: "linear",
+            }}
+          />
+          
+          {/* Pulsing glow effect */}
+          <motion.div
+            className="absolute inset-0 rounded-full bg-green-400/20"
+            animate={{
+              scale: [1, 1.1, 1],
+              opacity: [0.5, 0.8, 0.5],
+            }}
+            transition={{
+              repeat: Infinity,
+              duration: 1.5,
+              ease: "easeInOut",
+            }}
+          />
+          
+          {/* Shimmer effect on hover */}
+          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transform translate-x-[-100%] group-hover:translate-x-[100%] transition-all duration-700 ease-out" />
+        </motion.a>
+
         <button className="border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full">
           <span>Login</span>
           <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-blue-500 to-transparent  h-px" />

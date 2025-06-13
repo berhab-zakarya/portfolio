@@ -41,7 +41,7 @@ const Clients = ({ data }: ClientsProps) => {
           {/* Enhanced testimonials section */}
           <AnimatedSection animation="fadeIn" delay={0.3} className="w-full mb-12 sm:mb-16 lg:mb-20">
             <div className=" h-[40vh] sm:h-[45vh] md:h-[50vh] lg:h-[30rem] flex flex-col antialiased items-center w-full justify-center relative overflow-hidden">
-              <InfiniteMovingCards items={testimonials} direction="right" speed="slow" />
+              <InfiniteMovingCards items={testimonials} direction="right" speed="normal" />
             </div>
           </AnimatedSection>
 

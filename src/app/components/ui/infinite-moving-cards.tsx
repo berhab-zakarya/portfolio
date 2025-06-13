@@ -121,27 +121,14 @@ export const InfiniteMovingCards = ({
               onClick={() => setSelectedTestimonial(item)}
             >
               {/* Animated border gradient */}
-              <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-purple-500/20 via-blue-500/20 to-purple-500/20 p-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute inset-[1px] rounded-3xl bg-gradient-to-br from-slate-900/90 to-slate-800/90" />
-              </div>
-
-              <blockquote className="relative z-10">
-                {/* Quote icon */}
-                <div className="mb-4 opacity-60">
-                  <svg className="w-6 h-6 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z" />
-                  </svg>
-                </div>
-
-                {/* Quote with enhanced typography */}
-                <p className="relative z-20 text-lg leading-relaxed text-gray-100 font-normal font-['var(--font-poppins)'] mb-6 group-hover:text-white transition-colors duration-300 --font-poppins">
-                  {truncateText(item.quote, 140)}
-                </p>
-
-                {/* Show "Read more" if text is truncated */}
+               <div key={`review-${item.id}`} className="client-review">
+            <div>
+              <p onClick={() => setSelectedTestimonial(item)} className="text-white-800 font-light font-poppins">
+                {truncateText(item.quote, 140)}
+              </p>
                 {item.quote.length > 140 && (
-                  <div className="mb-4">
-                    <span className="text-purple-400 text-sm font-medium hover:text-purple-300 transition-colors duration-200 font-['var(--font-poppins)'] flex items-center gap-1">
+                  <div onClick={() => setSelectedTestimonial(item)} className="mt-4">
+                    <span onClick={() => setSelectedTestimonial(item)} className="text-purple-400 text-sm font-medium hover:text-purple-300 transition-colors duration-200 font-poppins flex items-center gap-1 ">
                       Read full testimonial
                       <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -150,36 +137,23 @@ export const InfiniteMovingCards = ({
                   </div>
                 )}
 
-                {/* Author info with enhanced styling */}
-                <div className="relative z-20 flex items-center gap-4 pt-4 border-t border-slate-700/30">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 p-[2px] flex-shrink-0">
-                    <div className="w-full h-full rounded-full bg-slate-800 flex items-center justify-center overflow-hidden">
-                      <Image
-                        src={getAvatarUrl(item.avatar)}
-                        alt={item.name}
-                        width={40}
-                        height={40}
-                        className="w-10 h-10 rounded-full object-cover"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement
-                          target.src = "/avatars.svg"
-                        }}
-                      />
-                    </div>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="text-white font-semibold text-base font-['var(--font-poppins)'] truncate">
-                      {item.name}
-                    </h4>
-                    <p className="text-gray-400 text-sm font-['var(--font-poppins)'] truncate --font-poppins">
-                      {item.title}
-                    </p>
+              <div className="client-content mt-4">
+                <div className="flex mt-4 gap-3">
+                  <img onClick={() => setSelectedTestimonial(item)} src={getAvatarUrl(item.avatar)} alt="reviewer" className="w-12 h-12 rounded-full" />
+                  <div className="flex flex-col">
+                    <p className="font-semibold text-white-800">{item.name}</p>
+                    <p className="text-white-500 md:text-base text-sm font-light">{item.title}</p>
                   </div>
                 </div>
-              </blockquote>
 
-              {/* Subtle glow effect */}
-              <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-purple-500/5 via-transparent to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                {/* <div className="mt-4 flex self-end items-center gap-2">
+                  {Array.from({ length: 5 }).map((_, index) => (
+                    <img key={index} src="/star.png" alt="star" className="w-5 h-5" />
+                  ))}
+                </div> */}
+              </div>
+            </div>
+          </div>
             </motion.li>
           ))}
         </ul>
@@ -250,17 +224,7 @@ export const InfiniteMovingCards = ({
                 <div className="flex items-center gap-6 relative z-10">
                   <div className="w-16 h-16 rounded-2xl bg-gradient-to-r from-purple-500 to-blue-500 p-[2px] flex-shrink-0">
                     <div className="w-full h-full rounded-2xl bg-slate-800 flex items-center justify-center overflow-hidden">
-                      <Image
-                        src={getAvatarUrl(selectedTestimonial.avatar)}
-                        alt={selectedTestimonial.name}
-                        width={56}
-                        height={56}
-                        className="w-14 h-14 rounded-2xl object-cover"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement
-                          target.src = "/avatars.svg"
-                        }}
-                      />
+                       <img src={getAvatarUrl(selectedTestimonial.avatar)} alt="reviewer" className="w-12 h-12 rounded-full" />
                     </div>
                   </div>
                   <div>

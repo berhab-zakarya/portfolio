@@ -57,36 +57,37 @@ const Experience = ({ data }: ExperienceProps) => {
         animation="stagger"
         className="w-full mt-8 sm:mt-10 lg:mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10"
       >
-        {mergedData.map((card) => (
-          <StaggeredItem key={card.id} className="w-full">
-            <Button
-              duration={Math.floor(Math.random() * 10000) + 10000}
-              borderRadius="1.75rem"
-              style={{
-                background: "rgb(4,7,29)",
-                backgroundColor: "linear-gradient(90deg, rgba(4,7,29,1) 0%, rgba(12,14,35,1) 100%)",
-                borderRadius: `calc(1.75rem* 0.96)`,
-              }}
-              className="w-full h-full text-black dark:text-white border-neutral-200 dark:border-slate-800"
-            >
-              <div className="flex flex-col sm:flex-col lg:flex-row lg:items-center p-4 sm:p-5 lg:p-6 xl:p-10 gap-3 sm:gap-4 lg:gap-2 min-h-[200px] sm:min-h-[220px] lg:min-h-[180px]">
-                <div className="flex justify-center lg:justify-start flex-shrink-0">
-                  <Image
-                    width={128}
-                    height={64}
-                    src={card.thumbnail || "/placeholder.svg"}
-                    alt={card.title}
-                    className="w-16 sm:w-20 md:w-24 lg:w-28 xl:w-32 h-auto object-contain"
-                  />
-                </div>
-                <div className="text-center lg:text-left lg:ms-3 xl:ms-5 flex-1">
-                  <h1 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 sm:mb-3 leading-tight">{card.title}</h1>
-                  <p className="text-white-100 text-sm sm:text-base font-semibold leading-relaxed">{card.desc}</p>
-                </div>
-              </div>
-            </Button>
-          </StaggeredItem>
-        ))}
+      {mergedData.map((card) => (
+  <StaggeredItem key={card.id} className={`w-full ${card.className} items-center justify-center flex`}>
+    <Button
+      duration={Math.floor(Math.random() * 10000) + 10000}
+      borderRadius="1.75rem"
+      style={{
+        background: "rgb(4,7,29)",
+        backgroundColor: "linear-gradient(90deg, rgba(4,7,29,1) 0%, rgba(12,14,35,1) 100%)",
+        borderRadius: `calc(1.75rem* 0.96)`,
+      }}
+      className="w-full h-full text-black dark:text-white border-neutral-200 dark:border-slate-800"
+    >
+      <div className="flex flex-col sm:flex-col lg:flex-row lg:items-center p-4 sm:p-5 lg:p-6 xl:p-10 gap-3 sm:gap-4 lg:gap-2 min-h-[200px] sm:min-h-[220px] lg:min-h-[180px]">
+        <div className="flex justify-center lg:justify-start flex-shrink-0">
+          <Image
+            width={128}
+            height={64}
+            src={card.thumbnail || "/placeholder.svg"}
+            alt={card.title}
+            className="w-16 sm:w-20 md:w-24 lg:w-28 xl:w-32 h-auto object-contain"
+          />
+        </div>
+        <div className="text-center lg:text-left lg:ms-3 xl:ms-5 flex-1">
+          <h1 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 sm:mb-3 leading-tight">{card.title}</h1>
+          <p className="text-white-100 text-sm sm:text-base font-semibold leading-relaxed">{card.desc}</p>
+        </div>
+      </div>
+    </Button>
+  </StaggeredItem>
+))}
+
       </AnimatedSection>
     </div>
   )

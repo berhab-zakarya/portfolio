@@ -76,7 +76,9 @@ const Home = () => {
       <div className="w-full">
         <FloatingNav navItems={navItems} />
         <Hero data={heroData} />
-        <Grid data={gridItemsData} />
+      <div className="w-full container mx-auto px-4 sm:px-6 lg:px-8">
+          <Grid data={gridItemsData} />
+      </div>
         <RecentProject data={projectsData} />
         <Clients data={{ testimonials: testimonialsData, companies: companiesData }} />
         <Experience data={workExperienceData} />
